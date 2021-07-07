@@ -16,6 +16,8 @@ class Company(db.Model):
     company_ko = relationship("CompanyKo", back_populates="company", uselist=False)
     company_en = relationship("CompanyEn", back_populates="company", uselist=False)
     company_ja = relationship("CompanyJa", back_populates="company", uselist=False)
+
+    companies_tags = relationship("CompanyTag", back_populates="company")
     
     def __repr__(self) -> str:
         return "<Company({}, {})>".format(self.id, self.created_at)
@@ -91,6 +93,8 @@ class Tag(db.Model):
     tag_en = relationship("TagEn", back_populates="tag", uselist=False)
     tag_ja = relationship("TagJa", back_populates="tag", uselist=False)
     
+    tags_companies = relationship("CompanyTag", back_populates="tag")
+
     def __repr__(self) -> str:
         return "<Tag({}, {})>".format(self.id, self.created_at)
 
@@ -132,7 +136,7 @@ class TagEn(db.Model):
                                                     self.name,
                                                     self.is_default)
 
-class TagKo(db.Model):
+class TagJa(db.Model):
 
     __tablename__ = "tag_ja"
 
@@ -159,8 +163,8 @@ class CompanyTag(db.Model):
     company_id = Column(Integer, ForeignKey("companies.id"), nullable=False)
     tag_id     = Column(Integer, ForeignKey("tags.id"), nullable=False)
 
-    company = relationship("Company", back_populates="CTcompany")
-    tag     = relationship("Tag", back_populates="CTtag")
+    company = relationship("Company", back_populates="companies_tags")
+    tag     = relationship("Tag", back_populates="tags_companies")
 
     def __repr__(self) -> str:
         return "<TagJa({}, {}, {})>".format(self.id,
