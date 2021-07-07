@@ -64,7 +64,7 @@ def search_company():
                 }
             )
 
-        return jsonify({"message" : result}), 201
+        return jsonify({"message" : result}), 200
     
     except KeyError:
         return jsonify({"message" : "KEY_ERROR"}), 400
