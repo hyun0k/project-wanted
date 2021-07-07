@@ -2,8 +2,6 @@ from flask  import Flask
 
 from config import DATABASE_URI
 
-from models import *
-
 def create_app():
     app = Flask(__name__)
 
@@ -12,6 +10,7 @@ def create_app():
     
     from database import db
     db.init_app(app)
+    from models  import company
 
     with app.app_context():
         from views import company
